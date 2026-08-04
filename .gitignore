@@ -1,0 +1,6 @@
+# Folders
+Temp/
+__pycache__/
+
+# Files
+.env
