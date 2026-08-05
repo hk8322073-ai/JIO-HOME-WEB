@@ -1,10 +1,11 @@
 # JIO-HOME-WEB
 
-FastAPI backend for interacting with the Jio Home authentication flow. The project currently focuses on three API actions:
+FastAPI backend for interacting with the Jio Home authentication flow. The project currently focuses on four API actions:
 
 - send OTP
 - verify OTP
 - refresh token
+- logout
 
 The app acts as a thin server-side wrapper around the upstream Jio Home endpoints and normalizes responses for local clients.
 
@@ -17,6 +18,7 @@ Completed so far:
 - OTP send flow
 - OTP verify flow
 - refresh token flow
+- logout flow
 - shared async HTTP client session management
 
 Planned work remains for the rest of the project, so this repository should be treated as an evolving auth service rather than a finished product.
@@ -95,6 +97,19 @@ Request body:
 
 Purpose: refreshes the user token using the stored refresh token pair.
 
+### `POST /api/auth/logout`
+
+Headers:
+
+```http
+userToken: <user token>
+tokenIdentifier: <token identifier>
+```
+
+Purpose: logs the user out using the active user token and token identifier.
+
+If either header is missing, the route returns `401 Unauthorized` with a short error message. On upstream logout failure, the route also returns `401 Unauthorized` with the upstream message.
+
 ## Response Shape
 
 The route layer converts upstream responses into a simpler JSON shape:
@@ -102,6 +117,7 @@ The route layer converts upstream responses into a simpler JSON shape:
 - OTP send returns `status` and `message`
 - OTP verify returns `status`, `message`, `userToken`, `tokenIdentifier`, `refreshToken`, and `user`
 - Refresh token returns `status`, `message`, and `userToken`
+- Logout returns a `401` response with `status` and `message` when logout fails; on success the current route implementation does not map a custom response body.
 
 When the upstream API reports an error, the project maps that to a local HTTP error code and returns a smaller response body.
 

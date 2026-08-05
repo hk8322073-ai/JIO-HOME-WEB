@@ -6,7 +6,7 @@ from configs.deviceConfig import mobileOs,mobileOsVersion,get_random_android_id,
 
 from .urls import host
 
-def get_auth_header(userId:str):
+def get_auth_header(userId:str) -> dict[str,str]:
     return {
         'Host': host,
         'userId': userId,                     # For Mobile No. starting with +91<mob_no>
@@ -19,7 +19,7 @@ def get_auth_header(userId:str):
         'Content-Type': 'application/json'
     }
 
-def get_refresh_token_header(tokenIdentifier:str):
+def get_refresh_token_header(tokenIdentifier:str) -> dict[str,str]:
     return  {
         'tokenIdentifier': tokenIdentifier,
         'refreshSSO': 'F',
@@ -30,6 +30,14 @@ def get_refresh_token_header(tokenIdentifier:str):
         'User-Agent': 'Ktor client',
         'Content-Type': 'application/json',
         'Host': host,
+    }
+    
+def get_authorised_header(Authorization:str,tokenIdentifier:str) -> dict[str,str]:
+    return {
+        'Host': host,
+        'Tokenidentifier': tokenIdentifier,
+        'Authorization': f'Bearer {Authorization}',
+        'User-Agent': 'okhttp/5.0.0-alpha.11',
     }
 
 def get_refresh_token_json(refreshToken:str):
@@ -151,4 +159,14 @@ def refactor_auth_response(response:dict[str,Any]) -> JSONResponse:
         content = content 
     )
     
-    
+def refactor_logout_response(response:dict[str,Any]) -> JSONResponse | None:
+    status = response["status"]
+    if (status == "FAILURE"):
+        return JSONResponse(
+            status_code = 401,
+            content = {
+                "status":status,
+                "message":response["message"]
+            }
+        )
+    return None
