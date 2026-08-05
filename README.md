@@ -127,7 +127,7 @@ When the upstream API reports an error, the project maps that to a local HTTP er
 2. Install the runtime dependencies used by the app:
 
 ```bash
-pip install fastapi aiohttp pydantic uvicorn
+pip install fastapi aiohttp pydantic
 ```
 
 The root `requirements.txt` is currently empty, so this project still needs a proper dependency list before it can be treated as fully packaged.
