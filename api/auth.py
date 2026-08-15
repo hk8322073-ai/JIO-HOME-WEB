@@ -2,10 +2,9 @@ from utils.urls import send_otp_url,verify_otp_url,refresh_token_url,logout_url
 from utils.utility import (
     get_auth_header,
     get_refresh_token_header,
-    get_authorised_header,
-    get_auth_otp_verify_json,
-    get_refresh_token_json
+    get_authorised_header
 )
+from transformers.auth_request_mapper import get_auth_otp_verify_json,get_refresh_token_json
 
 from api.client import client
 

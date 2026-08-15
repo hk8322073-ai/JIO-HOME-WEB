@@ -1,0 +1,9 @@
+html.dark {
+  --bg: #0a0f1c;
+  --card: #111827;
+  --text: #f1f5f9;
+  --subtext: #94a3b8;
+  --border: #1f2937;
+  --input-bg: #0f172a;
+  --ring: rgba(62, 123, 250, 0.28);
+}
