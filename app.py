@@ -23,7 +23,12 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
-
+@app.get("/")
+async def home():
+    return{
+        "success": True, "message": "JIO-HOME-WEB API is running",
+        "docs": "/docs", "health": "/health"
+    }
 # Calls automatically once when app starts & stops
 app.mount("/public", StaticFiles(directory="public"), name="public")
 app.include_router(apiRoute, prefix="/api")
